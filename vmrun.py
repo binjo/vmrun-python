@@ -1,9 +1,17 @@
-'''
+#!/usr/bin/python
+"""
 Control Vmware from Python. Used the vmrun.exe
 
 @author : Binjo <binjo.cn@gmail.com>
 @date   : 2008/03/15
-'''
+"""
+
+__description__ = "Control Vmware from Python. Used the vmrun.exe"
+__author__      = "Binjo"
+__version__     = "0.1.4"
+__date__        = "2010/08/24"
+__license__     = "GNU GPL v2"
+
 #
 # Based on vmrun-ruby, Alexander Sotirov <asotirov@determina.com>
 #
@@ -11,9 +19,6 @@ import os
 import subprocess
 
 class Vmrun:
-
-    # TODO
-    VMRUN_VERSION       =   '0.1.4'
 
     def execute( self, path, *cmd ):
 
