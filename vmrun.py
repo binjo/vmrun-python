@@ -29,8 +29,12 @@ class Vmrun:
 
         if self.DEBUG: print "[DEBUG] %s" % params
 
-#        st = subprocess.STARTUPINFO()
-        p = subprocess.Popen( "%s %s" % (path, params), stdout=subprocess.PIPE )#, startupinfo=st, creationflags=0x10 )
+        if os.sys.platform == "win32":
+            cmd = "%s %s" % (path, params)
+        else:
+            cmd = ["sh", "-c", "%s %s" % (path, params)]
+
+        p = subprocess.Popen( cmd, stdout=subprocess.PIPE )
 
         return p.stdout.readlines()
 
