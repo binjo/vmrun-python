@@ -183,8 +183,7 @@ class Vmrun:
     #
     # GUEST OS COMMANDS
     #
-    # FIXME -noWait -activeWindow -interactive???
-    def runProgramInGuest( self, program, *para ):
+    def runProgramInGuest( self, program, mode, *para ):
         '''
         runProgramInGuest        Path to vmx file     Run a program in Guest OS
                                  [-noWait]
@@ -193,15 +192,22 @@ class Vmrun:
                                  Complete-Path-To-Program
                                  [Program arguments]
         '''
-        return self.vmrun( 'runProgramInGuest', program, *para )
+        modes = { "n" : "-noWait",
+                  "a" : "-activeWindow",
+                  "i" : "-interactive" }
 
-    # TODO straight return?
+        if modes.has_key(mode):
+            return self.vmrun( 'runProgramInGuest', modes[mode], program, *para )
+        else:
+            return "error mode : %s" % mode
+
+    # return True/False
     def fileExistsInGuest( self, file ):
         '''
         fileExistsInGuest        Path to vmx file     Check if a file exists in Guest OS
                                  Path to file in guest
         '''
-        return self.vmrun( 'fileExistsInGuest', file )
+        return "not" not in "".join( self.vmrun( 'fileExistsInGuest', file ) )
 
     def setSharedFolderState( self, share_name, new_path, mode='readonly' ):
         '''
