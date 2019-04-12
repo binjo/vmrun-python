@@ -27,7 +27,7 @@ class Vmrun:
         cmds[0] = "-T ws -gu %s -gp %s %s" % (self.VM_ADMIN, self.VM_PASS, cmds[0])
         params = " ".join( cmds )
 
-        if self.DEBUG: print "[DEBUG] %s" % params
+        if self.DEBUG: print("[DEBUG] %s" % params)
 
         if os.sys.platform == "win32":
             cmd = "%s %s" % (path, params)
@@ -56,21 +56,21 @@ class Vmrun:
         else:
             if os.sys.platform == "win32":
                 # get vmrun.exe's full path via registry
-                import _winreg
-                reg = _winreg.ConnectRegistry( None, _winreg.HKEY_LOCAL_MACHINE )
+                import winreg
+                reg = winreg.ConnectRegistry( None, winreg.HKEY_LOCAL_MACHINE )
                 try:
-                    rh = _winreg.OpenKey( reg, r'SOFTWARE\VMware, Inc.\VMware Workstation' )
+                    rh = winreg.OpenKey( reg, r'SOFTWARE\VMware, Inc.\VMware Workstation' )
                     try:
-                        vw_dir = _winreg.QueryValueEx( rh, 'InstallPath' )[0]
+                        vw_dir = winreg.QueryValueEx( rh, 'InstallPath' )[0]
                     finally:
-                        _winreg.CloseKey( rh )
+                        winreg.CloseKey( rh )
                 finally:
                     reg.Close()
 
                 if vw_dir != '':
                     self.VMRUN_PATH = vw_dir + 'vmrun.exe'
             else:
-                if os.environ.has_key("PATH"):
+                if "PATH" in os.environ:
                     for path in os.environ["PATH"].split(os.pathsep):
                         tmp_file = path + os.sep + "vmrun"
                         if os.path.exists(tmp_file):
@@ -196,7 +196,7 @@ class Vmrun:
                   "a" : "-activeWindow",
                   "i" : "-interactive" }
 
-        if modes.has_key(mode):
+        if mode in modes:
             return self.vmrun( 'runProgramInGuest', modes[mode], program, *para )
         else:
             return "error mode : %s" % mode
@@ -446,4 +446,4 @@ class Vmrun:
         return self.vmrun( 'clone', dest_vmx, mode, snap_name )
 
 if __name__ == '__main__':
-    print 'Hello World'
+    print('Hello World')
