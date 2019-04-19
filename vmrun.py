@@ -41,7 +41,7 @@ class Vmrun:
     def vmrun(self, *cmd):
         output = self.execute( self.VMRUN_PATH, *cmd )
 
-        return output
+        return output.decode('UTF-8')
 
     # TODO maintain vm's power state
     def __init__( self, vmx, user='', password='', vmrun='', debug=False ):
