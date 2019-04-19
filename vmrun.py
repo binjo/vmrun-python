@@ -40,6 +40,8 @@ class Vmrun:
 
     def vmrun(self, *cmd):
         output = self.execute( self.VMRUN_PATH, *cmd )
+        for i in range(len(output)):
+            output[i]=output[i].decode('UTF-8')
 
         return output
 
@@ -208,7 +210,7 @@ class Vmrun:
                                  Path to file in guest
         '''
 
-        return b"not" not in "".join( self.vmrun( 'fileExistsInGuest', file ) )
+        return "not" not in "".join( self.vmrun( 'fileExistsInGuest', file ) )
 
     def setSharedFolderState( self, share_name, new_path, mode='readonly' ):
         '''
