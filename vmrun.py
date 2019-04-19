@@ -41,7 +41,7 @@ class Vmrun:
     def vmrun(self, *cmd):
         output = self.execute( self.VMRUN_PATH, *cmd )
 
-        return output.decode('UTF-8')
+        return output
 
     # TODO maintain vm's power state
     def __init__( self, vmx, user='', password='', vmrun='', debug=False ):
@@ -207,7 +207,8 @@ class Vmrun:
         fileExistsInGuest        Path to vmx file     Check if a file exists in Guest OS
                                  Path to file in guest
         '''
-        return "not" not in "".join( self.vmrun( 'fileExistsInGuest', file ) )
+
+        return b"not" not in "".join( self.vmrun( 'fileExistsInGuest', file ) )
 
     def setSharedFolderState( self, share_name, new_path, mode='readonly' ):
         '''
