@@ -1,0 +1,8 @@
+README
+setup.py
+vmrun.py
+vmrun.egg-info/PKG-INFO
+vmrun.egg-info/SOURCES.txt
+vmrun.egg-info/dependency_links.txt
+vmrun.egg-info/requires.txt
+vmrun.egg-info/top_level.txt
