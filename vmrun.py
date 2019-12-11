@@ -24,7 +24,7 @@ class Vmrun:
 
         cmds   = list(cmd)
         cmds.insert( 1, "\"%s\"" % self.VM_FILE )
-        cmds[0] = "-T ws -gu %s -gp %s %s" % (self.VM_ADMIN, self.VM_PASS, cmds[0])
+        cmds[0] = "-T %s -gu %s -gp %s %s" % (self.VM_PRODUCT, self.VM_ADMIN, self.VM_PASS, cmds[0])
         params = " ".join( cmds )
 
         if self.DEBUG: print("[DEBUG] %s" % params)
@@ -46,9 +46,10 @@ class Vmrun:
         return output
 
     # TODO maintain vm's power state
-    def __init__( self, vmx, user='', password='', vmrun='', debug=False ):
+    def __init__( self, vmx, user='', password='', vmrun='', debug=False, product='ws' ):
 
         self.VM_FILE    =   vmx         # TODO strict censor?
+        self.VM_PRODUCT =   product     # 'ws', 'server' or 'fusion' 
         self.VM_ADMIN   =   user
         self.VM_PASS    =   password
         self.DEBUG      =   debug
@@ -78,6 +79,8 @@ class Vmrun:
                         if os.path.exists(tmp_file):
                             self.VMRUN_PATH = tmp_file
                             break
+                    # escape spaces in path
+                    self.VMRUN_PATH = self.VMRUN_PATH.replace(' ', '\\ ')
 
     #
     # POWER COMMANDS
