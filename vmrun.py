@@ -17,6 +17,8 @@ __license__     = "GNU GPL v2"
 #
 import os
 import subprocess
+import sys
+
 
 class Vmrun:
 
@@ -29,7 +31,7 @@ class Vmrun:
 
         if self.DEBUG: print("[DEBUG] %s" % params)
 
-        if os.sys.platform == "win32":
+        if sys.platform == "win32":
             cmd = "%s %s" % (path, params)
         else:
             cmd = ["sh", "-c", "%s %s" % (path, params)]
@@ -39,11 +41,7 @@ class Vmrun:
         return p.stdout.readlines()
 
     def vmrun(self, *cmd):
-        output = self.execute( self.VMRUN_PATH, *cmd )
-        for i in range(len(output)):
-            output[i]=output[i].decode('UTF-8')
-
-        return output
+        return [_.decode('utf-8') for _ in self.execute( self.VMRUN_PATH, *cmd )]
 
     # TODO maintain vm's power state
     def __init__( self, vmx, user='', password='', vmrun='', debug=False, product='ws' ):
@@ -57,7 +55,7 @@ class Vmrun:
         if vmrun != '':
             self.VMRUN_PATH = vmrun
         else:
-            if os.sys.platform == "win32":
+            if sys.platform == "win32":
                 # get vmrun.exe's full path via registry
                 import winreg
                 reg = winreg.ConnectRegistry( None, winreg.HKEY_LOCAL_MACHINE )
@@ -281,26 +279,26 @@ class Vmrun:
         '''
         return self.vmrun( 'deleteFileInGuest', file )
 
-    def createDirectoryInGuest( self, dir ):
+    def createDirectoryInGuest(self, dirname):
         '''
         createDirectoryInGuest   Path to vmx file     Create a directory in Guest OS
                                  Directory path in guest
         '''
-        return self.vmrun( 'createDirectoryInGuest', dir )
+        return self.vmrun( 'createDirectoryInGuest', dirname)
 
-    def deleteDirectoryInGuest( self, dir ):
+    def deleteDirectoryInGuest(self, dirname):
         '''
         deleteDirectoryInGuest   Path to vmx file     Delete a directory in Guest OS
                                  Directory path in guest
         '''
-        return self.vmrun( 'deleteDirectoryInGuest', dir )
+        return self.vmrun( 'deleteDirectoryInGuest', dirname)
 
-    def listDirectoryInGuest( self, dir ):
+    def listDirectoryInGuest(self, dirname):
         '''
         listDirectoryInGuest     Path to vmx file     List a directory in Guest OS
                                  Directory path in guest
         '''
-        return self.vmrun( 'listDirectoryInGuest', dir )
+        return self.vmrun( 'listDirectoryInGuest', dirname)
 
     def copyFileFromHostToGuest( self, host_path, guest_path ):
         '''
