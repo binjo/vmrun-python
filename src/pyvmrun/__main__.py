@@ -10,10 +10,10 @@ __description__ = "Platform-independent VMWare/vmrun control from Python"
 __author__      = "bpengu1n"
 __version__     = "0.2.0"
 __date__        = "2021/03/23"
-__license__     = "GNU GPL v2"
+__license__     = "GNU GPL v3+"
 
 #
-# Forked from vmrun-python v0.1.4, @binjo <binjo.cn@gmail.com>
+# Forked from vmrun- v0.1.4, @binjo <binjo.cn@gmail.com>
 # Based on vmrun-ruby, Alexander Sotirov <asotirov@determina.com>
 #
 import os
@@ -21,7 +21,7 @@ import subprocess
 import sys
 
 
-class Vmrun:
+class Vmrun(object):
 
     def execute( self, path, *cmd ):
 

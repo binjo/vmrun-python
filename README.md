@@ -1,45 +1,37 @@
-                                                            _    _
-                                                           | |  | |
-__   __ _ __ ___   _ __  _   _  _ __  ______  _ __   _   _ | |_ | |__    ___   _ __
-\ \ / /| '_ ` _ \ | '__|| | | || '_ \|______|| '_ \ | | | || __|| '_ \  / _ \ | '_ \
- \ V / | | | | | || |   | |_| || | | |       | |_) || |_| || |_ | | | || (_) || | | |
-  \_/  |_| |_| |_||_|    \__,_||_| |_|       | .__/  \__, | \__||_| |_| \___/ |_| |_|
-                                             | |      __/ |
-                                             |_|     |___/
+# pyvmrun
+##Introduction
 
-                                                                            (*) 0.1.4
+This is a python wrapper for vmrun, used to control VMWare virtual machines. It 
+is based off of vmrun-python by @Binjo, whose idea is in-turn based on Alexander
+Sotirov's vmrun-ruby. Assumed, same as original, to support only VMWare Fusion/WS
+versions 6.0 and above.
 
--*0 Intro 0*-
-
-This is a python wrapper of vmrun.exe, which is used to control Vmware. Its idea is
-based on Alexander Sotirov's vmrun-ruby. Currently it only support vmware 6.0 or
-higher version.
-
--*0 Usage 0*-
-
-import vmrun
-vm = vmrun.Vmrun( r'full\path\to\your\foo.vmx', 'username', 'pass' )
+## Basic Usage
+```python
+import pyvmrun
+vm = pyvmrun.Vmrun( 'full/path/to/your/foo.vmx' )
 vm.start()
 vm.suspend()
 vm.stop()
+```
 
-More fun refer to the source :-)
+## Known Issues
 
--*0 Known issue 0*-
+1. Calls to revertToSnapshot may corrupt the VM's vmx file, causing the VM to 
+   refuse to start. If this is the case, edit your vmx file:
+   
+   * remove the following line:
+       
+   ```bash
+   checkpoint.vmState = "foo-SnapshotXX.vmsn"
+   ```
+   
+   * edit vmx vmdk (disk) reference:
+   ```bash
+   # ide0:0.fileName = "foo-XXXXX.vmdk"
+   # change to
+   ide0:0.fileName = "foo.vmdk"
+   ```
 
-1. When call revertToSnapshot, it may mess the vmware's vmx file, the Vmware may refuse
-   to start. If this is the case, edit your vmx file, remove the following line:
-       checkpoint.vmState = "foo-SnapshotXX.vmsn"
-   edit vmx file:
-       ide0:0.fileName = "foo-XXXXX.vmdk"
-   to the original disk file
-       ide0:0.fileName = "foo.vmdk"
-
--*0 Greetingz 0*-
-
-Dedicate this to my dear Sierra.
-Many thx to xIkUg/RCT, and all members of RCT, www.debugman.com.
-
-                                                                     _________________
-                                                                    /    Binjo/RCT    \
-                                                                  /____ 2008.04.02______\
+## Credits
+Thanks to @Binjo and all original contributors for your work.
